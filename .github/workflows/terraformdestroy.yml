@@ -1,0 +1,19 @@
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Destroy Infrastructure
+        env:
+          TF_VAR_hcp_token: ${{ secrets.HCP_TOKEN }}
+        run: terraform destroy -auto-approve
